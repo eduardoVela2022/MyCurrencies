@@ -7,42 +7,102 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
 </head>
 <body>
-    <header class="has-background-black">
-        <h1 class="is-size-3 has-text-weight-bold has-text-centered py-3">My Currencies</h1>
-    </header>
-    <section class="section">
-        <button class="js-modal-trigger is-size-5 is-uppercase" id="add-currency">
-            Add Currency
-          </button>
-        <div class="modal" id-="modal-js-example">
-            <div class="modal-background"></div>
-            <div class="modal-content has-background-white py-5 px-5">
-              <h3 class="is-size-4 mb-2 has-text-dark has-text-centered has-text-weight-bold">Add a new currency</h3>
-              <p class="is-size-5">Amount:</p>
-              <input class="input" type="text" placeholder="How much do you want to add?"/>
-              <p class="is-size-5mt-2">Currency type:</p>
-              <div class="select mb-4">
-                <select>
-                  <option>Select currency</option>
-                  <option>option1</option>
-                  <option>option2</option>
-                  <option>option3</option>
-                  <option>option4</option>
-                  <option>option5</option>
-                </select>
-              </div>
-              <p></p>
-              <button id="add-currency-modal" class="button is-success">Save on my list</button>
-            </div>
-            <button class="modal-close is-large" aria-label="close"></button>
-          </div>
-
-        </section>
+    <!-- top bar begins, only logo is present for now -->
+    <nav class="navbar has-background-white">
+        <div class="navbar-item mx-5 my-2">
+            <img src="./assets/logo.png" alt="logo My currencies" style="max-height: 50px;">
+        </div>
+    </nav>
+    <!-- top bar ends -->
+    <!-- full container starts -->
     <section class="section">
         <div class="container">
-            <p>This is where results should be displayed</p>
+            <div class="columns">
+                <!-- left side section, where Add Currency button is found -->
+                <div class="column is-one-third">
+                    <!-- button Add Currency, on click this opens a modal to enter data -->
+                    <button class="button is-warning is-dark js-modal-trigger is-size-5 is-uppercase" id="add-currency">
+                        Add Currency
+                    </button>
+                    <!-- Modal where user can add the amount of money and choose preferred currency -->
+                    <div class="modal" id-="modal-js-example">
+                        <div class="modal-background"></div>
+                        <div class="modal-content has-background-white py-5 px-5">
+                          <h3 class="is-size-4 mb-2 has-text-dark has-text-centered has-text-weight-bold">Add a new currency</h3>
+                          <p class="is-size-5">Amount:</p>
+                          <input class="input" type="text" placeholder="How much do you want to add?"/>
+                          <p class="is-size-5mt-2">Currency type:</p>
+                          <div class="select mb-4">
+                            <!-- Different currencies to choose from -->
+                            <select>
+                              <option>Select currency</option>
+                              <option>option1</option>
+                              <option>option2</option>
+                              <option>option3</option>
+                              <option>option4</option>
+                              <option>option5</option>
+                            </select>
+                          </div>
+                          <p></p>
+                          <button id="add-currency-modal" class="button is-success">Save on my list</button>
+                        </div>
+                        <button class="modal-close is-large" aria-label="close"></button>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="is-size-4 subtitle has-text-weight-bold">Preferred Currencies</h3>
+                        <!-- This list will be created in time, adding the last Xnumber of currencies added -->
+                        <ul>
+                            <li>First Currency</li>
+                            <li>Second Currency</li>
+                            <li>Third Currency</li>
+                            <li>Forth Currency</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- left side section ends -->
+                <!-- main data section starts, this is where the amount entered and equivalent currencies will be displayed -->
+                <div class="column">
+                    <span>
+                        <span id="define-amountofmoney-id" class="has-text-weight-bold">X</span> amount of money in 
+                        <!-- this should be where -->
+                        <span id="define-currency-id" class="has-text-weight-bold">MNX</span>
+                         can get you:
+                    </span>
+                    <div class="container mt-5">
+                        <!-- This is where all the equivalents will be displayed -->
+                        <div class="grid">
+                            <div class="cell">Currency 1</div>
+                            <div class="cell">Currency 2</div>
+                            <div class="cell">Currency 3</div>
+                            <div class="cell">Currency 4</div>
+                            <div class="cell">Currency 5</div>
+                            <div class="cell">Currency 6</div>
+                            <div class="cell">Currency 7</div>
+                            <div class="cell">Currency 8</div>
+                            <div class="cell">Currency 9</div>
+                            <div class="cell">Currency 10</div>
+                            <div class="cell">Currency 11</div>
+                            <div class="cell">Currency 12</div>
+                            <div class="cell">Currency 13</div>
+                            <div class="cell">Currency 14</div>
+                            <div class="cell">Currency 15</div>
+                            <div class="cell">Currency 16</div>
+                            <div class="cell">Currency 17</div>
+                            <div class="cell">Currency 18</div>
+                            <div class="cell">Currency 19</div>
+                            <div class="cell">Currency 20</div>
+                            <div class="cell">Currency 21</div>
+                            <div class="cell">Currency 22</div>
+                            <div class="cell">Currency 23</div>
+                            <div class="cell">Currency 24</div>
+                          </div>
+                    </div>
+                </div>
+                <!-- main data section ends -->
+            </div>
         </div>
     </section>
+
     <footer>
 
     </footer>

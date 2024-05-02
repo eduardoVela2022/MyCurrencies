@@ -1,4 +1,4 @@
-// Modal
+// code to make Modal pop
 
 const addCurrencyBtn = document.querySelector('#add-currency');
 const modalClose = document.querySelector('.modal-close');
