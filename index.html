@@ -27,14 +27,14 @@
                     <!-- Modal where user can add the amount of money and choose preferred currency -->
                     <div class="modal" id-="modal-js-example">
                         <div class="modal-background"></div>
-                        <div class="modal-content has-background-white py-5 px-5">
-                          <h3 class="is-size-4 mb-2 has-text-dark has-text-centered has-text-weight-bold">Add a new currency</h3>
+                        <div class="modal-content has-background-dark py-5 px-5">
+                          <h3 class="is-size-4 mb-2 has-text-light has-text-centered has-text-weight-bold">Add a new currency</h3>
                           <p class="is-size-5">Amount:</p>
-                          <input class="input" type="text" placeholder="How much do you want to add?"/>
-                          <p class="is-size-5mt-2">Currency type:</p>
-                          <div class="select mb-4">
+                          <input class="input is-warning" type="text" placeholder="How much would you like to add?"/>
+                          <p class="is-size-5 mt-4">Currency type:</p>
+                          <div class="select mt-2 mb-5">
                             <!-- Different currencies to choose from -->
-                            <select>
+                            <select class="is-warning">
                               <option>Select currency</option>
                               <option>option1</option>
                               <option>option2</option>
@@ -44,7 +44,7 @@
                             </select>
                           </div>
                           <p></p>
-                          <button id="add-currency-modal" class="button is-success">Save on my list</button>
+                          <button id="add-currency-modal" class="button is-warning">Save on my list</button>
                         </div>
                         <button class="modal-close is-large" aria-label="close"></button>
                     </div>
