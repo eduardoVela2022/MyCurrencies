@@ -55,6 +55,25 @@ async function getCountryFlags() {
   return flags;
 }
 
+//Listen to the click event and add our logic to it with a function
+document.getElementById('add-btn').addEventListener('click',(e)=>{fetchCurrencies(e)});
+
+function fetchCurrencies(e)  {
+  e.preventDefault();
+  // get the currency the user wants to convert
+  let amount = document.getElementById('amount').value;
+  // get the value that the user wants to convert
+  let currencyFrom = document.getElementById('currency').value;
+  // make a query to the frankfurter server to obtain the currency changes
+  fetch(`https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`)
+  .then(resp => resp.json())
+  .then((data) => {
+  //show the different exchange rates in the console
+    console.log(data.rates);
+  alert(`10 ${currencyFrom} = ${amount} USD`);
+  });
+}
+
 addCurrencyBtn.addEventListener("click", () => {
   modal.classList.add("is-active");
 });
