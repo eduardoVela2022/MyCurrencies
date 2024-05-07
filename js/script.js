@@ -56,44 +56,49 @@ async function getCountryFlags() {
 }
 
 //Listen to the click event and add our logic to it with a function
-document.getElementById('add-btn').addEventListener('click',(e)=>{fetchCurrencies(e)});
+document.getElementById("add-currency-modal").addEventListener("click", (e) => {
+  fetchCurrencies(e);
+});
 
-function fetchCurrencies(e)  {
+function fetchCurrencies(e) {
   e.preventDefault();
   // get the currency the user wants to convert
-  let amount = document.getElementById('amount').value;
+  let amount = document.getElementById("amount").value;
   // get the value that the user wants to convert
-  let currencyFrom = document.getElementById('currency').value;
+  let currencyFrom = document.getElementById("currency").value;
   // make a query to the frankfurter server to obtain the currency changes
-  fetch(`https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`)
-  .then(resp => resp.json())
-  .then((data) => {
-  //show the different exchange rates in the console
-    console.log(data.rates);
-  alert(`10 ${currencyFrom} = ${amount} USD`);
-  });
+  fetch(
+    `https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`
+  )
+    .then((resp) => resp.json())
+    .then((data) => {
+      //show the different exchange rates in the console
+      console.log(data.rates);
+      alert(`10 ${currencyFrom} = ${amount} USD`);
+    });
 }
 
 addCurrencyBtn.addEventListener("click", () => {
   modal.classList.add("is-active");
 });
 
-
-modalClose.addEventListener('click', () => {
-    modal.classList.remove('is-active');
+modalClose.addEventListener("click", () => {
+  modal.classList.remove("is-active");
 });
 
 // Your Currencies boxes
 
-document.addEventListener('DOMContentLoaded', function() {
-	let cardToggles = document.getElementsByClassName('card-toggle');
-	for (let i = 0; i < cardToggles.length; i++) {
-		cardToggles[i].addEventListener('click', e => {
-			e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle('is-hidden');
-		});
-	}
+document.addEventListener("DOMContentLoaded", function () {
+  let cardToggles = document.getElementsByClassName("card-toggle");
+  for (let i = 0; i < cardToggles.length; i++) {
+    cardToggles[i].addEventListener("click", (e) => {
+      e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle(
+        "is-hidden"
+      );
+    });
+  }
+});
 
 modalClose.addEventListener("click", () => {
   modal.classList.remove("is-active");
-
 });
