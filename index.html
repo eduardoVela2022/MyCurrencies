@@ -8,8 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+<<<<<<< Updated upstream
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
+=======
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+>>>>>>> Stashed changes
 </head>
 <body>
     <!-- top bar begins, only logo is present for now -->
@@ -29,6 +33,7 @@
                     <button class="button is-warning js-modal-trigger is-size-5 is-uppercase is-fullwidth" id="add-currency">
                         Add Currency
                     </button>
+<<<<<<< Updated upstream
                     <!-- Modal where user can add the amount of money and choose preferred currency -->
                     <div class="modal" id-="modal-js-example">
                         <div class="modal-background"></div>
@@ -76,6 +81,30 @@
                           </div>
                           <p></p>
                           <button id="add-currency-modal" class="button is-warning">Save on my list</button>
+=======
+                    <div class="form">
+                        <div class="modal-content has-background-dark py-5 px-5">
+                            <h3 class="is-size-4 mb-2 has-text-light has-text-centered has-text-weight-bold">Add a new currency</h3>
+                            <p class="is-size-5">Amount:</p>
+                            <input class="input is-warning" type="text" id="amount" placeholder="How much would you like to add?" />
+                            <p class="is-size-5 mt-4">Currency type:</p>
+                            <div class="select mt-2 mb-5">
+                                <!-- Different currencies to choose from -->
+                                <select id="currency" class="is-warning">
+                                    <option>Select currency</option>
+                                    <option>USD</option>
+                                    <option>MXN</option>
+                                    <option>option3</option>
+                                    <option>option4</option>
+                                    <option>option5</option>
+                                </select>
+                            </div>
+                            <button id="add-currency-modal" class="button is-warning">Save on my list</button>
+                        </div>
+                    <!-- Modal where user can add the amount of money and choose preferred currency -->
+                    <div class="modal" id="modal-js-example">
+                        <div class="modal-background"></div>
+>>>>>>> Stashed changes
                         </div>
                         <button class="modal-close is-large" aria-label="close"></button>
                     </div>
@@ -116,6 +145,7 @@
                     </span>
                     <div class="container mt-5">
                         <!-- This is where all the equivalents will be displayed -->
+<<<<<<< Updated upstream
                         <div class="grid">
                             <div class="cell box has-background-light is-shadowless">Currency 1</div>
                             <div class="cell box has-background-light is-shadowless">Currency 2</div>
@@ -147,6 +177,9 @@
                             <div class="cell box has-background-light is-shadowless">Currency 28</div>
                             <div class="cell box has-background-light is-shadowless">Currency 29</div>
                           </div>
+=======
+                        <div class="grid" id="currencies-list"></div>
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 <!-- main data section ends -->
@@ -157,6 +190,8 @@
     <footer>
 
     </footer>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
     <script src="./js/script.js"></script>
 </body>
 </html>
