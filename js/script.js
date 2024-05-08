@@ -18,6 +18,11 @@ let searchHistory = [];
 // Local storage key for the user's search history
 const SEARCH_HISTORY_KEY = "searchHistory";
 
+// User's selected currency
+let selectedCurrency = {};
+// Local storage key for the user's selected currency
+const SELECTED_CURRENCY_KEY = "selectedCurrency";
+
 // List of the currencies' countries
 const countriesList = [
   "united states",
@@ -137,8 +142,8 @@ function renderSearchHistory() {
     newHeaderToggleBtnIcon.setAttribute("class", "fa fa-angle-down");
     newHeaderToggleBtn.appendChild(newHeaderToggleBtnIcon);
 
-    // If the toggle button is clicked, it will display the hidden option button or hide them if visible
-    newHeaderToggleBtn.addEventListener("click", () => {
+    // If the header is clicked, it will display the hidden option button or hide them if visible
+    newHeader.addEventListener("click", () => {
       // Gets the hidden content of the list item
       const hiddenContent = document.getElementById(`${item.id}-content-div`);
 
@@ -194,6 +199,17 @@ function renderSearchHistory() {
   searchHistoryDiv.appendChild(searchHistoryList);
 }
 
+async function renderResults(amount, currencyCode) {
+  //Updates label
+  updateLabel(amount, currencyCode);
+
+  // Gets exchange rates
+  const exchangeRates = await getExchangeRates(amount, currencyCode);
+
+  // Renders exchange rates to the DOM
+  renderExchangeRates(exchangeRates);
+}
+
 function deleteElement(id) {
   // Gets the old currency list
   const itemToDelete = document.getElementById(id);
@@ -208,6 +224,13 @@ function updateLabel(amount, currencyCode) {
   // Updates label elements
   defineAmountOfMoneyId.textContent = amount;
   defineCurrencyId.textContent = currencyCode;
+}
+
+function updateSelectedCurrency(newSelectedCurrency) {
+  // Updates the selected currency
+  selectedCurrency = newSelectedCurrency;
+  // Saves it to local storage
+  loadToLocalStorage(SELECTED_CURRENCY_KEY, selectedCurrency);
 }
 
 function loadToLocalStorage(key, value) {
@@ -227,12 +250,17 @@ async function handleCreateNewCurrency(event) {
   const amount = document.getElementById("amount").value;
   const currencyCode = document.getElementById("currency").value;
 
-  // Updates search history
-  searchHistory.push({
+  const newCurrency = {
     id: crypto.randomUUID(),
     amount,
     currencyCode,
-  });
+  };
+
+  // Updates selected currency
+  updateSelectedCurrency(newCurrency);
+
+  // Updates search history
+  searchHistory.push(newCurrency);
 
   // Saves search history to local storage
   loadToLocalStorage(SEARCH_HISTORY_KEY, searchHistory);
@@ -246,28 +274,39 @@ async function handleCreateNewCurrency(event) {
   //Updates label
   updateLabel(amount, currencyCode);
 
-  // Gets exchange rates
-  const exchangeRates = await getExchangeRates(amount, currencyCode);
+  // Renders the main content of the website to the DOM
+  renderResults(amount, currencyCode);
 
-  // Renders exchange rates to the DOM
-  renderExchangeRates(exchangeRates);
-
-  // Renders search history to the DOM
+  // Renders the search history to the DOM
   renderSearchHistory();
 
   // Closes the modal window
   modal.classList.remove("is-active");
 }
 
-function main() {
+async function main() {
   // Loads search history from local storage
   searchHistory = getFromLocalStorage(SEARCH_HISTORY_KEY);
+  // Loads selected currency from local storage
+  selectedCurrency = getFromLocalStorage(SELECTED_CURRENCY_KEY);
 
   // If search history is null, it is turned into an empty list
   if (!searchHistory) {
     searchHistory = [];
-  } else {
+  }
+  // If it exists, search history is rendered
+  else {
     renderSearchHistory();
+  }
+
+  // If search history is null, it is turned into an empty object
+  if (!selectedCurrency) {
+    selectedCurrency = {};
+  }
+  // If it exists, exchange rates are rendered
+  else {
+    // Renders the main content of the website to the DOM
+    renderResults(selectedCurrency.amount, selectedCurrency.currencyCode);
   }
 
   console.log(searchHistory);
