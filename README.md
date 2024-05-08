@@ -18,11 +18,11 @@ I am presented with a main page where, on a side section, I can click a button t
 * WHEN I click,
 THEN a modal pops up and I am asked to add any amount of money and the proper currency.
 * WHEN I add my information and click "Add"
-THEN I see that last information creates a new card with the information pulled from localStorage and depending on the currency chosen, a corresponding flag is displayed on the side.
+THEN I see that last information creates a new card with the information pulled from localStorage and depending on the currency chosen, a corresponding flag is displayed on the side using EmojiHub API.
 * WHEN a card is created,
 THEN I am able to edit it or delete it.
 * WHEN my data has been added,
-THEN I can see in the main section, I see the amount being called as well as the currency and displayed in the text at the top, and the equivalents in other currencies right below, in one box each.
+THEN I can see in the main section, I see the amount of money being called as well as the currency and displayed in the text at the top, and the equivalents in other currencies right below generated with Frankfurter API, in one box each.
 
 ## Go to the project
 
