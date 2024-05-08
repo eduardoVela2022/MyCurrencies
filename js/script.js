@@ -55,37 +55,17 @@ async function getCountryFlags() {
   return flags;
 }
 
-<<<<<<< Updated upstream
 //Listen to the click event and add our logic to it with a function
 document.getElementById("add-currency-modal").addEventListener("click", (e) => {
   fetchCurrencies(e);
 });
-=======
-//Listen to the click event and add the fetch currencies logic to it.
-document.getElementById('add-currency-modal').addEventListener('click',(e)=>{fetchCurrencies(e)});
->>>>>>> Stashed changes
 
 function fetchCurrencies(e) {
   e.preventDefault();
-<<<<<<< Updated upstream
-  // get the currency the user wants to convert
-  let amount = document.getElementById("amount").value;
-  // get the value that the user wants to convert
-  let currencyFrom = document.getElementById("currency").value;
-  // make a query to the frankfurter server to obtain the currency changes
-  fetch(
-    `https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`
-  )
-    .then((resp) => resp.json())
-    .then((data) => {
-      //show the different exchange rates in the console
-      console.log(data.rates);
-      alert(`10 ${currencyFrom} = ${amount} USD`);
-    });
-=======
   // get the amount and currency the user wants to convert
   let amount = document.getElementById('amount').value;
   let currencyFrom = document.getElementById('currency').value;
+  $('.modal-close').click();
 
   // make a query to the frankfurter server to obtain the currency changes
   fetch(`https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`)
@@ -103,13 +83,11 @@ function fetchCurrencies(e) {
 
   //iterate the currency to generate the html section of each currency and insert it into the html
     currencies.forEach((currency) => {
-      const currencyHtml = $(`<div class="cell"><h5>${currency}:</h5><p>${currenciesObject[currency]}</p></div>`);
-
+      const currencyHtml = $(`<li class="cell box has-background-light is-shadowless"><h5>${currency}:</h5><p>${currenciesObject[currency]}</p></li>`);
       //Apply the .append method to add the frankfurter data into the webpage  
       $('#currencies-list').append(currencyHtml);
     });
   });
->>>>>>> Stashed changes
 }
 
 addCurrencyBtn.addEventListener("click", () => {
