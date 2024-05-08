@@ -3,6 +3,8 @@ const addCurrencyModalBtn = document.querySelector("#add-currency-modal");
 const addCurrencyBtn = document.querySelector("#add-currency");
 const modalClose = document.querySelector(".modal-close");
 const modal = document.querySelector(".modal");
+// Div where the search history will be displayed
+const searchHistoryDiv = document.querySelector("#search-history-div");
 // Div where the exchange rates will be displayed
 const currenciesListDiv = document.querySelector("#currencies-list-div");
 // Label elements
@@ -105,13 +107,100 @@ function renderExchangeRates(exchangeRates) {
   currenciesListDiv.appendChild(currenciesList);
 }
 
-function clearExchangeRates() {
+function renderSearchHistory() {
+  // Creates a new empty search history list
+  const searchHistoryList = document.createElement("ul");
+  searchHistoryList.setAttribute("id", "search-history");
+
+  // For each item of the search history a new list item is created
+  for (const item of searchHistory) {
+    // New list item is created
+    const newListItem = document.createElement("li");
+    newListItem.setAttribute("class", "card is-fullwidth");
+
+    // New list item header is created
+    const newHeader = document.createElement("header");
+    newHeader.setAttribute("class", "card-header");
+
+    // Title is added to the header
+    const newHeaderTitle = document.createElement("a");
+    newHeaderTitle.setAttribute("class", "card-header-title");
+    newHeaderTitle.textContent = `${item.amount} ${item.currencyCode}`;
+    newHeader.appendChild(newHeaderTitle);
+
+    // Toggle button is created
+    const newHeaderToggleBtn = document.createElement("a");
+    newHeaderToggleBtn.setAttribute("class", "card-header-icon card-toggle");
+
+    // Icon is added to the header toggle button
+    const newHeaderToggleBtnIcon = document.createElement("i");
+    newHeaderToggleBtnIcon.setAttribute("class", "fa fa-angle-down");
+    newHeaderToggleBtn.appendChild(newHeaderToggleBtnIcon);
+
+    // If the toggle button is clicked, it will display the hidden option button or hide them if visible
+    newHeaderToggleBtn.addEventListener("click", () => {
+      // Gets the hidden content of the list item
+      const hiddenContent = document.getElementById(`${item.id}-content-div`);
+
+      // If it is hidden it is shown
+      if (hiddenContent.classList.contains("is-hidden")) {
+        hiddenContent.setAttribute("class", "card-content px-4 py-3");
+      }
+      // If it is visible it is hidden
+      else {
+        hiddenContent.setAttribute("class", "card-content is-hidden px-4 py-3");
+      }
+    });
+
+    // Toggle button is added to the header
+    newHeader.appendChild(newHeaderToggleBtn);
+
+    // Header is added to the list item
+    newListItem.appendChild(newHeader);
+
+    // New list item content div is created
+    const newContentDiv = document.createElement("div");
+    newContentDiv.setAttribute("id", `${item.id}-content-div`);
+    newContentDiv.setAttribute("class", "card-content is-hidden px-4 py-3");
+
+    // New list item content is created
+    const newContent = document.createElement("div");
+    newContent.setAttribute("class", "content");
+
+    // Edit button is added to the content
+    const newEditButton = document.createElement("button");
+    newEditButton.setAttribute(
+      "class",
+      "btn-icon fa-regular fa-pen-to-square pr-3"
+    );
+    newContent.appendChild(newEditButton);
+
+    // Delete button is added to the content
+    const newDeleteButton = document.createElement("button");
+    newDeleteButton.setAttribute("class", "btn-icon fa-regular fa-trash-can");
+    newContent.appendChild(newDeleteButton);
+
+    // Content is added to content div
+    newContentDiv.appendChild(newContent);
+
+    // Content div is added to the list item
+    newListItem.appendChild(newContentDiv);
+
+    // New list item is added to the search history list
+    searchHistoryList.appendChild(newListItem);
+  }
+
+  // Search hsitory list is added to the search history div
+  searchHistoryDiv.appendChild(searchHistoryList);
+}
+
+function deleteElement(id) {
   // Gets the old currency list
-  const oldCurrenciesList = document.getElementById("currencies-list");
+  const itemToDelete = document.getElementById(id);
 
   // If the currency list exists, it deletes it.
-  if (oldCurrenciesList) {
-    oldCurrenciesList.remove();
+  if (itemToDelete) {
+    itemToDelete.remove();
   }
 }
 
@@ -133,12 +222,26 @@ function getFromLocalStorage(key) {
 
 async function handleCreateNewCurrency(event) {
   event.preventDefault();
-  // Gets rid of the old currency list
-  clearExchangeRates();
 
   // Gets modal input field values
   const amount = document.getElementById("amount").value;
   const currencyCode = document.getElementById("currency").value;
+
+  // Updates search history
+  searchHistory.push({
+    id: crypto.randomUUID(),
+    amount,
+    currencyCode,
+  });
+
+  // Saves search history to local storage
+  loadToLocalStorage(SEARCH_HISTORY_KEY, searchHistory);
+
+  // Gets rid of the old currency list
+  deleteElement("currencies-list");
+
+  // Gets rid of the old search history
+  deleteElement("search-history");
 
   //Updates label
   updateLabel(amount, currencyCode);
@@ -149,14 +252,8 @@ async function handleCreateNewCurrency(event) {
   // Renders exchange rates to the DOM
   renderExchangeRates(exchangeRates);
 
-  // Updates search history
-  searchHistory.push({
-    amount,
-    currencyCode,
-  });
-
-  // Saves search history to local storage
-  loadToLocalStorage(SEARCH_HISTORY_KEY, searchHistory);
+  // Renders search history to the DOM
+  renderSearchHistory();
 
   // Closes the modal window
   modal.classList.remove("is-active");
@@ -169,6 +266,8 @@ function main() {
   // If search history is null, it is turned into an empty list
   if (!searchHistory) {
     searchHistory = [];
+  } else {
+    renderSearchHistory();
   }
 
   console.log(searchHistory);
@@ -180,19 +279,6 @@ main();
 // When the add currency button is clicked, it runs a script to get the exchange rates of the given amount and currency code
 addCurrencyModalBtn.addEventListener("click", (event) => {
   handleCreateNewCurrency(event);
-});
-
-// Gives the currency boxes a toggle feature
-document.addEventListener("DOMContentLoaded", function () {
-  let cardToggles = document.getElementsByClassName("card-toggle");
-
-  for (let i = 0; i < cardToggles.length; i++) {
-    cardToggles[i].addEventListener("click", (e) => {
-      e.currentTarget.parentElement.parentElement.childNodes[3].classList.toggle(
-        "is-hidden"
-      );
-    });
-  }
 });
 
 // Makes the add currency button activate the modal when its clicked
