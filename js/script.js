@@ -62,20 +62,32 @@ document.getElementById("add-currency-modal").addEventListener("click", (e) => {
 
 function fetchCurrencies(e) {
   e.preventDefault();
-  // get the currency the user wants to convert
-  let amount = document.getElementById("amount").value;
-  // get the value that the user wants to convert
-  let currencyFrom = document.getElementById("currency").value;
+  // get the amount and currency the user wants to convert
+  let amount = document.getElementById('amount').value;
+  let currencyFrom = document.getElementById('currency').value;
+  $('.modal-close').click();
+
   // make a query to the frankfurter server to obtain the currency changes
-  fetch(
-    `https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`
-  )
-    .then((resp) => resp.json())
-    .then((data) => {
-      //show the different exchange rates in the console
-      console.log(data.rates);
-      alert(`10 ${currencyFrom} = ${amount} USD`);
+  fetch(`https://api.frankfurter.app/latest?amount=${amount}&amp;from=${currencyFrom}`)
+  .then(resp => resp.json())
+  .then((data) => {
+    const currenciesObject = data.rates;
+     //show the different exchange rates in the console\
+    console.log('keys > ', Object.keys(data.rates));
+
+   //convert the object to an array to do an iteration.
+    const  currencies = Object.keys(data.rates);
+    //replacing the static text with the value that the user has entered with jQuery.
+    $('#define-amountofmoney-id').html(amount);
+    $('#define-currency-id').html(currencyFrom);
+
+  //iterate the currency to generate the html section of each currency and insert it into the html
+    currencies.forEach((currency) => {
+      const currencyHtml = $(`<li class="cell box has-background-light is-shadowless"><h5>${currency}:</h5><p>${currenciesObject[currency]}</p></li>`);
+      //Apply the .append method to add the frankfurter data into the webpage  
+      $('#currencies-list').append(currencyHtml);
     });
+  });
 }
 
 addCurrencyBtn.addEventListener("click", () => {
