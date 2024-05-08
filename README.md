@@ -26,7 +26,7 @@ THEN I can see in the main section, I see the amount of money being called as we
 
 ## Go to the project
 
-To visit and review our project, [click here](#)
+To visit and review our project, [click here](https://eduardovela2022.github.io/MyCurrencies/)
 
 ## Visual reference of project
 The following image demonstrates the app's appearance:
