@@ -147,6 +147,17 @@ function renderSearchHistory() {
       // Gets the hidden content of the list item
       const hiddenContent = document.getElementById(`${item.id}-content-div`);
 
+      if (selectedCurrency.id !== item.id) {
+        // Updates selected currency
+        updateSelectedCurrency(item);
+
+        // Gets rid of the old currency list
+        deleteElement("currencies-list");
+
+        // Renders the main content of the website to the DOM
+        renderResults(item.amount, item.currencyCode);
+      }
+
       // If it is hidden it is shown
       if (hiddenContent.classList.contains("is-hidden")) {
         hiddenContent.setAttribute("class", "card-content px-4 py-3");
@@ -308,8 +319,6 @@ async function main() {
     // Renders the main content of the website to the DOM
     renderResults(selectedCurrency.amount, selectedCurrency.currencyCode);
   }
-
-  console.log(searchHistory);
 }
 
 // Runs main function
