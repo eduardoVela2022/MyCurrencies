@@ -8,10 +8,7 @@ const searchHistoryDiv = document.querySelector("#search-history-div");
 // Div where the exchange rates will be displayed
 const currenciesListDiv = document.querySelector("#currencies-list-div");
 // Label elements
-const defineAmountOfMoneyId = document.querySelector(
-  "#define-amountofmoney-id"
-);
-const defineCurrencyId = document.querySelector("#define-currency-id");
+const messageLabel = document.querySelector("#message-label");
 
 // User's search history
 let searchHistory = [];
@@ -193,95 +190,111 @@ function renderSearchHistory() {
   const searchHistoryList = document.createElement("ul");
   searchHistoryList.setAttribute("id", "search-history");
 
-  // For each item of the search history a new list item is created
-  for (const item of searchHistory) {
-    // New list item is created
-    const newListItem = document.createElement("li");
-    newListItem.setAttribute("class", "card is-fullwidth");
+  // If the search history is not empty, its items will be rendered
+  if (searchHistory) {
+    // For each item of the search history a new list item is created
+    for (const item of searchHistory) {
+      // New list item is created
+      const newListItem = document.createElement("li");
+      newListItem.setAttribute("class", "card is-fullwidth");
 
-    // New list item header is created
-    const newHeader = document.createElement("header");
-    newHeader.setAttribute("class", "card-header");
+      // New list item header is created
+      const newHeader = document.createElement("header");
+      newHeader.setAttribute("class", "card-header");
 
-    // Title is added to the header
-    const newHeaderTitle = document.createElement("a");
-    newHeaderTitle.setAttribute("class", "card-header-title");
-    // The country flag of the currency is obtained using its currency code property
-    const countryFlag = getEmojiFlag(item.currencyCode);
-    newHeaderTitle.innerHTML = `${countryFlag[0]}${countryFlag[1]} ${item.currencyCode}: ${item.amount}`;
-    newHeader.appendChild(newHeaderTitle);
+      // Title is added to the header
+      const newHeaderTitle = document.createElement("a");
+      newHeaderTitle.setAttribute("class", "card-header-title");
+      // The country flag of the currency is obtained using its currency code property
+      const countryFlag = getEmojiFlag(item.currencyCode);
+      newHeaderTitle.innerHTML = `${countryFlag[0]}${countryFlag[1]} ${item.currencyCode}: ${item.amount}`;
+      newHeader.appendChild(newHeaderTitle);
 
-    // Toggle button is created
-    const newHeaderToggleBtn = document.createElement("a");
-    newHeaderToggleBtn.setAttribute("class", "card-header-icon card-toggle");
+      // Toggle button is created
+      const newHeaderToggleBtn = document.createElement("a");
+      newHeaderToggleBtn.setAttribute("class", "card-header-icon card-toggle");
 
-    // Icon is added to the header toggle button
-    const newHeaderToggleBtnIcon = document.createElement("i");
-    newHeaderToggleBtnIcon.setAttribute("class", "fa fa-angle-down");
-    newHeaderToggleBtn.appendChild(newHeaderToggleBtnIcon);
+      // Icon is added to the header toggle button
+      const newHeaderToggleBtnIcon = document.createElement("i");
+      newHeaderToggleBtnIcon.setAttribute("class", "fa fa-angle-down");
+      newHeaderToggleBtn.appendChild(newHeaderToggleBtnIcon);
 
-    // If the header is clicked, it will display the hidden option button or hide them if visible
-    newHeader.addEventListener("click", () => {
-      // Gets the hidden content of the list item
-      const hiddenContent = document.getElementById(`${item.id}-content-div`);
+      // If the header is clicked, it will display the hidden option button or hide them if visible
+      newHeader.addEventListener("click", () => {
+        // Gets the hidden content of the list item
+        const hiddenContent = document.getElementById(`${item.id}-content-div`);
 
-      if (selectedCurrency.id !== item.id) {
-        // Updates selected currency
-        updateSelectedCurrency(item);
+        if (selectedCurrency.id !== item.id) {
+          // Updates selected currency
+          updateSelectedCurrency(item);
 
-        // Gets rid of the old currency list
-        deleteElement("currencies-list");
+          // Gets rid of the old currency list
+          deleteElement("currencies-list");
 
-        // Renders the main content of the website to the DOM
-        renderResults(item.amount, item.currencyCode);
-      }
+          // Renders the main content of the website to the DOM
+          renderResults(item.amount, item.currencyCode);
+        }
 
-      // If it is hidden it is shown
-      if (hiddenContent.classList.contains("is-hidden")) {
-        hiddenContent.setAttribute("class", "card-content px-4 py-3");
-      }
-      // If it is visible it is hidden
-      else {
-        hiddenContent.setAttribute("class", "card-content is-hidden px-4 py-3");
-      }
-    });
+        // If it is hidden it is shown
+        if (hiddenContent.classList.contains("is-hidden")) {
+          hiddenContent.setAttribute("class", "card-content px-4 py-3");
+        }
+        // If it is visible it is hidden
+        else {
+          hiddenContent.setAttribute(
+            "class",
+            "card-content is-hidden px-4 py-3"
+          );
+        }
+      });
 
-    // Toggle button is added to the header
-    newHeader.appendChild(newHeaderToggleBtn);
+      // Toggle button is added to the header
+      newHeader.appendChild(newHeaderToggleBtn);
 
-    // Header is added to the list item
-    newListItem.appendChild(newHeader);
+      // Header is added to the list item
+      newListItem.appendChild(newHeader);
 
-    // New list item content div is created
-    const newContentDiv = document.createElement("div");
-    newContentDiv.setAttribute("id", `${item.id}-content-div`);
-    newContentDiv.setAttribute("class", "card-content is-hidden px-4 py-3");
+      // New list item content div is created
+      const newContentDiv = document.createElement("div");
+      newContentDiv.setAttribute("id", `${item.id}-content-div`);
+      newContentDiv.setAttribute("class", "card-content is-hidden px-4 py-3");
 
-    // New list item content is created
-    const newContent = document.createElement("div");
-    newContent.setAttribute("class", "content");
+      // New list item content is created
+      const newContent = document.createElement("div");
+      newContent.setAttribute("class", "content");
 
-    // Edit button is added to the content
-    const newEditButton = document.createElement("button");
-    newEditButton.setAttribute(
-      "class",
-      "btn-icon fa-regular fa-pen-to-square pr-3"
-    );
-    newContent.appendChild(newEditButton);
+      // Edit button is added to the content
+      const newEditButton = document.createElement("button");
+      newEditButton.setAttribute(
+        "class",
+        "btn-icon fa-regular fa-pen-to-square pr-3"
+      );
+      newContent.appendChild(newEditButton);
 
-    // Delete button is added to the content
-    const newDeleteButton = document.createElement("button");
-    newDeleteButton.setAttribute("class", "btn-icon fa-regular fa-trash-can");
-    newContent.appendChild(newDeleteButton);
+      // Delete button is added to the content
+      const newDeleteButton = document.createElement("button");
+      newDeleteButton.setAttribute("class", "btn-icon fa-regular fa-trash-can");
+      newContent.appendChild(newDeleteButton);
 
-    // Content is added to content div
-    newContentDiv.appendChild(newContent);
+      // Content is added to content div
+      newContentDiv.appendChild(newContent);
 
-    // Content div is added to the list item
-    newListItem.appendChild(newContentDiv);
+      // Content div is added to the list item
+      newListItem.appendChild(newContentDiv);
 
-    // New list item is added to the search history list
-    searchHistoryList.appendChild(newListItem);
+      // New list item is added to the search history list
+      searchHistoryList.appendChild(newListItem);
+    }
+  }
+  // If search history is empty, a message is rendered to let the user know
+  else {
+    // Empty search history message is created and added to the search history list
+    const emptyListMessage = document.createElement("li");
+    emptyListMessage.textContent = "Your search history is empty.";
+    searchHistoryList.appendChild(emptyListMessage);
+
+    // Search history is turned to an empty list
+    searchHistory = [];
   }
 
   // Search hsitory list is added to the search history div
@@ -310,11 +323,10 @@ function deleteElement(id) {
 }
 
 function updateLabel(amount, currencyCode) {
-  // Updates label elements
-  defineAmountOfMoneyId.textContent = amount;
   // The country flag of the currency is obtained using its currency code property
   const countryFlag = getEmojiFlag(currencyCode);
-  defineCurrencyId.innerHTML = `${countryFlag[0]}${countryFlag[1]} ${currencyCode}`;
+  // Updates the label element
+  messageLabel.innerHTML = `${amount} in ${countryFlag[0]}${countryFlag[1]} ${currencyCode} can get you:`;
 }
 
 function updateSelectedCurrency(newSelectedCurrency) {
@@ -383,14 +395,8 @@ async function main() {
   // Gets the country flags of the currencies we use from an API
   countryFlags = await getCountryFlags();
 
-  // If search history is null, it is turned into an empty list
-  if (!searchHistory) {
-    searchHistory = [];
-  }
-  // If it exists, search history is rendered
-  else {
-    renderSearchHistory();
-  }
+  // Renders the search history
+  renderSearchHistory();
 
   // If search history is null, it is turned into an empty object
   if (!selectedCurrency) {

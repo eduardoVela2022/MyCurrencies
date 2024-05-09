@@ -67,7 +67,7 @@
                 <p class="is-size-5">Amount:</p>
                 <input
                   class="input is-warning"
-                  type="text"
+                  type="number"
                   id="amount"
                   placeholder="How much would you like to add?"
                 />
@@ -129,16 +129,8 @@
           <!-- left side section ends -->
           <!-- main data section starts, this is where the amount entered and equivalent currencies will be displayed -->
           <div class="column p-5">
-            <span>
-              <span id="define-amountofmoney-id" class="has-text-weight-bold"
-                >X</span
-              >
-              in
-              <!-- this should be where -->
-              <span id="define-currency-id" class="has-text-weight-bold"
-                >MNX</span
-              >
-              can get you:
+            <span id="message-label">
+              Add or select a currency to view exchange rates
             </span>
             <div class="container mt-5">
               <!-- This is where all the equivalents will be displayed -->
