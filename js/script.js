@@ -17,6 +17,19 @@ const deleteCurrencyModalBtn = document.querySelector(
 const deleteCurrencyModalClose = document.querySelector(
   "#delete-currency-modal-close"
 );
+// Update currency modal window elements
+const updateCurrencyModal = document.querySelector("#update-currency-modal");
+const updateCurrencyModalMessage = document.querySelector(
+  "#update-currency-modal-message"
+);
+const updateCurrencyModalBtn = document.querySelector(
+  "#update-currency-modal-btn"
+);
+const updateCurrencyModalClose = document.querySelector(
+  "#update-currency-modal-close"
+);
+const amountUpdateField = document.querySelector("#amount-update");
+const currencyCodeUpdateField = document.querySelector("#currency-update");
 
 // Div where the search history will be displayed
 const searchHistoryDiv = document.querySelector("#search-history-div");
@@ -35,7 +48,11 @@ let selectedCurrency = {};
 // Local storage key for the user's selected currency
 const SELECTED_CURRENCY_KEY = "selectedCurrency";
 
+// The selected currency to delete
 let currencyToDelete = {};
+
+// The selected currency to update
+let currencyToUpdate = {};
 
 // The emoji flags of the countries of the currencies we are using
 let countryFlags = [];
@@ -286,8 +303,15 @@ function renderSearchHistory() {
         "class",
         "btn-icon fa-regular fa-pen-to-square pr-3"
       );
+      // When the update button is clicked, it will activate the update modal window and set its message
       newEditButton.addEventListener("click", () => {
-        console.log("EDIT");
+        updateCurrencyModal.classList.add("is-active");
+        updateCurrencyModalMessage.innerHTML = `Modify ${countryFlag[0]}${countryFlag[1]} ${item.currencyCode}: ${item.amount}`;
+        // Selected currency to update is set to item
+        currencyToUpdate = item;
+        // Update form fields are set
+        amountUpdateField.value = item.amount;
+        currencyCodeUpdateField.value = item.currencyCode;
       });
       newContent.appendChild(newEditButton);
 
@@ -298,8 +322,8 @@ function renderSearchHistory() {
       newDeleteButton.addEventListener("click", () => {
         deleteCurrencyModal.classList.add("is-active");
         deleteCurrencyModalMessage.innerHTML = `Delete ${countryFlag[0]}${countryFlag[1]} ${item.currencyCode}: ${item.amount}`;
+        // Selected currecy to delete is set to item
         currencyToDelete = item;
-        console.log(currencyToDelete);
       });
       newContent.appendChild(newDeleteButton);
 
@@ -340,7 +364,6 @@ async function renderResults(amount, currencyCode) {
 }
 
 function deleteElement(id) {
-  console.log("Element deleted");
   // Gets the old currency list
   const itemToDelete = document.getElementById(id);
 
@@ -352,7 +375,7 @@ function deleteElement(id) {
 
 function updateLabel() {
   // If there is a selected currency, a message with its information is displayed
-  if (selectedCurrency) {
+  if (Object.keys(selectedCurrency).length !== 0) {
     // The country flag of the currency is obtained using its currency code property
     const countryFlag = getEmojiFlag(selectedCurrency.currencyCode);
     // Updates the label element
@@ -444,7 +467,7 @@ async function main() {
   renderSearchHistory();
 
   // If search history is null, it is turned into an empty object
-  if (!selectedCurrency) {
+  if (!selectedCurrency || Object.keys(selectedCurrency).length === 0) {
     selectedCurrency = {};
   }
   // If it exists, exchange rates are rendered
@@ -462,6 +485,11 @@ addCurrencyModalBtn.addEventListener("click", (event) => {
   handleCreateNewCurrency(event);
 });
 
+// Makes the add currency button activate the modal when its clicked
+addCurrencyBtn.addEventListener("click", () => {
+  addCurrencyModal.classList.add("is-active");
+});
+
 // When the delete button is clicked, it runs a script to delete the currency to delete and renders the site again
 deleteCurrencyModalBtn.addEventListener("click", () => {
   // Removes the currency to delete from the search history list
@@ -473,9 +501,9 @@ deleteCurrencyModalBtn.addEventListener("click", () => {
   loadToLocalStorage(SEARCH_HISTORY_KEY, searchHistory);
 
   // The currency to delete is the same as the selected currency
-  if (selectedCurrency === currencyToDelete) {
+  if (selectedCurrency.id === currencyToDelete.id) {
     // Selected currency is reset
-    selectedCurrency = null;
+    selectedCurrency = {};
     updateSelectedCurrency(selectedCurrency);
 
     // Gets rid of the old currency list
@@ -497,9 +525,56 @@ deleteCurrencyModalBtn.addEventListener("click", () => {
   deleteCurrencyModal.classList.remove("is-active");
 });
 
-// Makes the add currency button activate the modal when its clicked
-addCurrencyBtn.addEventListener("click", () => {
-  addCurrencyModal.classList.add("is-active");
+updateCurrencyModalBtn.addEventListener("click", () => {
+  // Prevents the user from using invalid values
+  if (
+    amountUpdateField.value <= 0 ||
+    currencyCodeUpdateField.value === "Select a currency"
+  ) {
+    return;
+  }
+
+  // Selected currency to update is updated
+  // Updated currency object is created
+  const updatedCurrency = {
+    id: currencyToUpdate.id,
+    amount: amountUpdateField.value,
+    currencyCode: currencyCodeUpdateField.value,
+  };
+
+  // Updated currency replaces the stale currency
+  searchHistory[
+    searchHistory.findIndex((item) => item.id === currencyToUpdate.id)
+  ] = updatedCurrency;
+
+  // Saves search history to local storage
+  loadToLocalStorage(SEARCH_HISTORY_KEY, searchHistory);
+
+  // The currency to update is the same as the selected currency
+  if (selectedCurrency.id === currencyToUpdate.id) {
+    selectedCurrency = updatedCurrency;
+    updateSelectedCurrency(selectedCurrency);
+
+    // Gets rid of the old currency list
+    deleteElement("currencies-list");
+
+    //Updates label
+    updateLabel();
+
+    // Renders the main content of the website to the DOM
+    renderResults(selectedCurrency.amount, selectedCurrency.currencyCode);
+  }
+  // Currency to update is reset
+  currencyToUpdate = {};
+
+  // Gets rid of the old search history
+  deleteElement("search-history");
+
+  // Renders the search history to the DOM
+  renderSearchHistory();
+
+  // Makes the update currency modal window disappear
+  updateCurrencyModal.classList.remove("is-active");
 });
 
 // Makes the add currency modal window disappear
@@ -510,4 +585,9 @@ addCurrencyModalClose.addEventListener("click", () => {
 // Makes the delete currency modal window disappear
 deleteCurrencyModalClose.addEventListener("click", () => {
   deleteCurrencyModal.classList.remove("is-active");
+});
+
+// Makes the update currency modal window disappear
+updateCurrencyModalClose.addEventListener("click", () => {
+  updateCurrencyModal.classList.remove("is-active");
 });

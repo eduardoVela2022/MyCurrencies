@@ -122,7 +122,7 @@
               ></button>
             </div>
             <!-- Modal ends -->
-            <!-- Modal where user can add the amount of money and choose preferred currency -->
+            <!-- Modal where user can delete a currency -->
             <div id="delete-currency-modal" class="modal">
               <div class="modal-background"></div>
               <div class="modal-content has-background-light py-5 px-5">
@@ -143,6 +143,75 @@
               </div>
               <button
                 id="delete-currency-modal-close"
+                class="modal-close is-large"
+                aria-label="close"
+              ></button>
+            </div>
+            <!-- Modal ends -->
+            <!-- Modal where user can update the amount of money and type of currency of a currency -->
+            <div id="update-currency-modal" class="modal">
+              <div class="modal-background"></div>
+              <div class="modal-content has-background-light py-5 px-5">
+                <h3
+                  id="update-currency-modal-message"
+                  class="is-size-4 mb-2 has-text-dark has-text-centered has-text-weight-bold"
+                ></h3>
+                <p class="is-size-5">Currency amount:</p>
+                <input
+                  class="input is-warning"
+                  type="number"
+                  id="amount-update"
+                  placeholder="500"
+                />
+                <p class="is-size-5 mt-4">Currency type:</p>
+                <div class="select mt-2 mb-5">
+                  <!-- List of different currencies to choose from -->
+                  <select id="currency-update" class="is-warning">
+                    <option>Select a currency</option>
+                    <option value="USD">USD - US dollar</option>
+                    <option value="JPY">JPY - Japanese yen</option>
+                    <option value="BGN">BGN - Bulgarian lev</option>
+                    <option value="CZK">CZK - Czech koruna</option>
+                    <option value="DKK">DKK - Danish krone</option>
+                    <option value="GBP">GBP - Pound sterling</option>
+                    <option value="HUF">HUF - Hungarian forint</option>
+                    <option value="PLN">PLN - Polish zloty</option>
+                    <option value="RON">RON - Romanian leu</option>
+                    <option value="SEK">SEK - Swedish krona</option>
+                    <option value="CHF">CHF - Swiss franc</option>
+                    <option value="ISK">ISK - Icelandic krona</option>
+                    <option value="NOK">NOK - Norwegian krone</option>
+                    <option value="TRY">TRY - Turkish lira</option>
+                    <option value="AUD">AUD - Australian dollar</option>
+                    <option value="BRL">BRL - Brazilian real</option>
+                    <option value="CAD">CAD - Canadian dollar</option>
+                    <option value="CNY">CNY - Chinese yuan renminbi</option>
+                    <option value="HKD">HKD - Hong Kong dollar</option>
+                    <option value="IDR">IDR - Indonesian rupiah</option>
+                    <option value="ILS">ILS - Israeli shekel</option>
+                    <option value="INR">INR - Indian rupee</option>
+                    <option value="KRW">KRW - South Korean won</option>
+                    <option value="MXN">MXN - Mexican peso</option>
+                    <option value="MYR">MYR - Malasyan ringgit</option>
+                    <option value="NZD">NZD - New Zealand dollar</option>
+                    <option value="PHP">PHP - Philippine peso</option>
+                    <option value="SGD">SGD - Singapore dollar</option>
+                    <option value="THB">THB - Thai baht</option>
+                    <option value="ZAR">ZAR - South African rand</option>
+                    <option value="EUR">EUR - Euro</option>
+                  </select>
+                  <!-- List ends -->
+                </div>
+                <p></p>
+                <button
+                  id="update-currency-modal-btn"
+                  class="button is-warning"
+                >
+                  Update
+                </button>
+              </div>
+              <button
+                id="update-currency-modal-close"
                 class="modal-close is-large"
                 aria-label="close"
               ></button>
