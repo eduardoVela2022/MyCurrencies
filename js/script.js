@@ -23,6 +23,9 @@ let selectedCurrency = {};
 // Local storage key for the user's selected currency
 const SELECTED_CURRENCY_KEY = "selectedCurrency";
 
+// The emoji flags of the countries of the currencies we are using
+let countryFlags = [];
+
 // List of the currencies' countries
 const countriesList = [
   "united states",
@@ -55,9 +58,10 @@ const countriesList = [
   "singapore",
   "thailand",
   "south africa",
+  "european union",
 ];
 
-// Returns an array with the emoji flags of the currencies we are using
+// Returns an array with the emoji flags of the countries of the currencies we are using
 async function getCountryFlags() {
   // Gets all the emoji flags from the API
   const response = await fetch(
@@ -70,9 +74,79 @@ async function getCountryFlags() {
   // Gets only the flags of the countries we require
   const flags = data.filter((flag) => countriesList.includes(flag.name));
 
-  console.log(flags);
   // Return them
   return flags;
+}
+
+function getEmojiFlag(currencyCode) {
+  function findFlag(countryName) {
+    return countryFlags.find((object) => object.name === countryName).htmlCode;
+  }
+
+  switch (currencyCode) {
+    case "USD": // United states
+      return findFlag(countriesList[0]);
+    case "JPY": // Japan
+      return findFlag(countriesList[1]);
+    case "BGN": // Bulgaria
+      return findFlag(countriesList[2]);
+    case "CZK": // Czech republic
+      return findFlag(countriesList[3]);
+    case "DKK": // Denmark
+      return findFlag(countriesList[4]);
+    case "GBP": // United kingdom
+      return findFlag(countriesList[5]);
+    case "HUF": // Hungary
+      return findFlag(countriesList[6]);
+    case "PLN": // Poland
+      return findFlag(countriesList[7]);
+    case "RON": // Romania
+      return findFlag(countriesList[8]);
+    case "SEK": // Sweden
+      return findFlag(countriesList[9]);
+    case "CHF": // Switzerland
+      return findFlag(countriesList[10]);
+    case "ISK": // Iceland
+      return findFlag(countriesList[11]);
+    case "NOK": // Norway
+      return findFlag(countriesList[12]);
+    case "TRY": // Turkey
+      return findFlag(countriesList[13]);
+    case "AUD": // Australia
+      return findFlag(countriesList[14]);
+    case "BRL": // Brazil
+      return findFlag(countriesList[15]);
+    case "CAD": // Canada
+      return findFlag(countriesList[16]);
+    case "CNY": // China
+      return findFlag(countriesList[17]);
+    case "HKD": // Hong Kong
+      return findFlag(countriesList[18]);
+    case "IDR": // Indonesia
+      return findFlag(countriesList[19]);
+    case "ILS": // Israel
+      return findFlag(countriesList[20]);
+    case "INR": // India
+      return findFlag(countriesList[21]);
+    case "KRW": // South Korea
+      return findFlag(countriesList[22]);
+    case "MXN": // Mexico
+      return findFlag(countriesList[23]);
+    case "MYR": // Malaysia
+      return findFlag(countriesList[24]);
+    case "NZD": // New Zeland
+      return findFlag(countriesList[25]);
+    case "PHP": // Philippines
+      return findFlag(countriesList[26]);
+    case "SGD": // Singapore
+      return findFlag(countriesList[27]);
+    case "THB": // Thailand
+      return findFlag(countriesList[28]);
+    case "ZAR": // South Africa
+      return findFlag(countriesList[29]);
+    case "EUR": // European Union
+      return findFlag(countriesList[30]);
+  }
 }
 
 async function getExchangeRates(amount, currencyCode) {
@@ -102,7 +176,9 @@ function renderExchangeRates(exchangeRates) {
       "class",
       "cell box has-background-light is-shadowless"
     );
-    newListItem.textContent = `${exchangeRate}: ${exchangeRates[exchangeRate]}`;
+    // The country flag of the exchange rate is obtained using its currency code property
+    const countryFlag = getEmojiFlag(exchangeRate);
+    newListItem.innerHTML = `${countryFlag[0]}${countryFlag[1]} ${exchangeRate}: ${exchangeRates[exchangeRate]}`;
 
     // Adds the new list item to the currency list
     currenciesList.appendChild(newListItem);
@@ -130,7 +206,9 @@ function renderSearchHistory() {
     // Title is added to the header
     const newHeaderTitle = document.createElement("a");
     newHeaderTitle.setAttribute("class", "card-header-title");
-    newHeaderTitle.textContent = `${item.amount} ${item.currencyCode}`;
+    // The country flag of the currency is obtained using its currency code property
+    const countryFlag = getEmojiFlag(item.currencyCode);
+    newHeaderTitle.innerHTML = `${countryFlag[0]}${countryFlag[1]} ${item.currencyCode}: ${item.amount}`;
     newHeader.appendChild(newHeaderTitle);
 
     // Toggle button is created
@@ -234,7 +312,9 @@ function deleteElement(id) {
 function updateLabel(amount, currencyCode) {
   // Updates label elements
   defineAmountOfMoneyId.textContent = amount;
-  defineCurrencyId.textContent = currencyCode;
+  // The country flag of the currency is obtained using its currency code property
+  const countryFlag = getEmojiFlag(currencyCode);
+  defineCurrencyId.innerHTML = `${countryFlag[0]}${countryFlag[1]} ${currencyCode}`;
 }
 
 function updateSelectedCurrency(newSelectedCurrency) {
@@ -300,6 +380,8 @@ async function main() {
   searchHistory = getFromLocalStorage(SEARCH_HISTORY_KEY);
   // Loads selected currency from local storage
   selectedCurrency = getFromLocalStorage(SELECTED_CURRENCY_KEY);
+  // Gets the country flags of the currencies we use from an API
+  countryFlags = await getCountryFlags();
 
   // If search history is null, it is turned into an empty list
   if (!searchHistory) {
@@ -319,6 +401,7 @@ async function main() {
     // Renders the main content of the website to the DOM
     renderResults(selectedCurrency.amount, selectedCurrency.currencyCode);
   }
+  console.log(countryFlags);
 }
 
 // Runs main function
