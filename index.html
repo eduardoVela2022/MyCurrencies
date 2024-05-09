@@ -51,31 +51,31 @@
             <!-- button Add Currency, on click this opens a modal to enter data -->
             <button
               class="button is-warning js-modal-trigger is-size-5 is-uppercase is-fullwidth"
-              id="add-currency"
+              id="add-currency-btn"
             >
               Add Currency
             </button>
             <!-- Modal where user can add the amount of money and choose preferred currency -->
-            <div class="modal" id-="modal-js-example">
+            <div id="add-currency-modal" class="modal">
               <div class="modal-background"></div>
               <div class="modal-content has-background-light py-5 px-5">
                 <h3
                   class="is-size-4 mb-2 has-text-dark has-text-centered has-text-weight-bold"
                 >
-                  Add a new currency
+                  Add new currency
                 </h3>
-                <p class="is-size-5">Amount:</p>
+                <p class="is-size-5">Currency amount:</p>
                 <input
                   class="input is-warning"
                   type="number"
                   id="amount"
-                  placeholder="How much would you like to add?"
+                  placeholder="500"
                 />
                 <p class="is-size-5 mt-4">Currency type:</p>
                 <div class="select mt-2 mb-5">
                   <!-- List of different currencies to choose from -->
                   <select id="currency" class="is-warning">
-                    <option>Select currency</option>
+                    <option>Select a currency</option>
                     <option value="USD">USD - US dollar</option>
                     <option value="JPY">JPY - Japanese yen</option>
                     <option value="BGN">BGN - Bulgarian lev</option>
@@ -111,11 +111,41 @@
                   <!-- List ends -->
                 </div>
                 <p></p>
-                <button id="add-currency-modal" class="button is-warning">
-                  Save on my list
+                <button id="add-currency-modal-btn" class="button is-warning">
+                  Add
                 </button>
               </div>
-              <button class="modal-close is-large" aria-label="close"></button>
+              <button
+                id="add-currency-modal-close"
+                class="modal-close is-large"
+                aria-label="close"
+              ></button>
+            </div>
+            <!-- Modal ends -->
+            <!-- Modal where user can add the amount of money and choose preferred currency -->
+            <div id="delete-currency-modal" class="modal">
+              <div class="modal-background"></div>
+              <div class="modal-content has-background-light py-5 px-5">
+                <h3
+                  id="delete-currency-modal-message"
+                  class="is-size-4 mb-2 has-text-dark has-text-centered has-text-weight-bold"
+                ></h3>
+                <p class="is-size-5 mb-5">
+                  Are you sure you want to delete this currency?
+                </p>
+                <p></p>
+                <button
+                  id="delete-currency-modal-btn"
+                  class="button is-warning"
+                >
+                  Delete
+                </button>
+              </div>
+              <button
+                id="delete-currency-modal-close"
+                class="modal-close is-large"
+                aria-label="close"
+              ></button>
             </div>
             <!-- Modal ends -->
             <div class="mt-6">

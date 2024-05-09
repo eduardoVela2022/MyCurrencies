@@ -1,8 +1,23 @@
-// Modal window elements
-const addCurrencyModalBtn = document.querySelector("#add-currency-modal");
-const addCurrencyBtn = document.querySelector("#add-currency");
-const modalClose = document.querySelector(".modal-close");
-const modal = document.querySelector(".modal");
+// Button that activates the add currency modal window
+const addCurrencyBtn = document.querySelector("#add-currency-btn");
+// Add currency modal window elements
+const addCurrencyModal = document.querySelector("#add-currency-modal");
+const addCurrencyModalBtn = document.querySelector("#add-currency-modal-btn");
+const addCurrencyModalClose = document.querySelector(
+  "#add-currency-modal-close"
+);
+// Delete currency modal window elements
+const deleteCurrencyModal = document.querySelector("#delete-currency-modal");
+const deleteCurrencyModalMessage = document.querySelector(
+  "#delete-currency-modal-message"
+);
+const deleteCurrencyModalBtn = document.querySelector(
+  "#delete-currency-modal-btn"
+);
+const deleteCurrencyModalClose = document.querySelector(
+  "#delete-currency-modal-close"
+);
+
 // Div where the search history will be displayed
 const searchHistoryDiv = document.querySelector("#search-history-div");
 // Div where the exchange rates will be displayed
@@ -19,6 +34,8 @@ const SEARCH_HISTORY_KEY = "searchHistory";
 let selectedCurrency = {};
 // Local storage key for the user's selected currency
 const SELECTED_CURRENCY_KEY = "selectedCurrency";
+
+let currencyToDelete = {};
 
 // The emoji flags of the countries of the currencies we are using
 let countryFlags = [];
@@ -269,11 +286,21 @@ function renderSearchHistory() {
         "class",
         "btn-icon fa-regular fa-pen-to-square pr-3"
       );
+      newEditButton.addEventListener("click", () => {
+        console.log("EDIT");
+      });
       newContent.appendChild(newEditButton);
 
       // Delete button is added to the content
       const newDeleteButton = document.createElement("button");
       newDeleteButton.setAttribute("class", "btn-icon fa-regular fa-trash-can");
+      // When the delete button is clicked, it will activate the delete modal window and set its message
+      newDeleteButton.addEventListener("click", () => {
+        deleteCurrencyModal.classList.add("is-active");
+        deleteCurrencyModalMessage.innerHTML = `Delete ${countryFlag[0]}${countryFlag[1]} ${item.currencyCode}: ${item.amount}`;
+        currencyToDelete = item;
+        console.log(currencyToDelete);
+      });
       newContent.appendChild(newDeleteButton);
 
       // Content is added to content div
@@ -303,7 +330,7 @@ function renderSearchHistory() {
 
 async function renderResults(amount, currencyCode) {
   //Updates label
-  updateLabel(amount, currencyCode);
+  updateLabel();
 
   // Gets exchange rates
   const exchangeRates = await getExchangeRates(amount, currencyCode);
@@ -313,6 +340,7 @@ async function renderResults(amount, currencyCode) {
 }
 
 function deleteElement(id) {
+  console.log("Element deleted");
   // Gets the old currency list
   const itemToDelete = document.getElementById(id);
 
@@ -322,11 +350,18 @@ function deleteElement(id) {
   }
 }
 
-function updateLabel(amount, currencyCode) {
-  // The country flag of the currency is obtained using its currency code property
-  const countryFlag = getEmojiFlag(currencyCode);
-  // Updates the label element
-  messageLabel.innerHTML = `${amount} in ${countryFlag[0]}${countryFlag[1]} ${currencyCode} can get you:`;
+function updateLabel() {
+  // If there is a selected currency, a message with its information is displayed
+  if (selectedCurrency) {
+    // The country flag of the currency is obtained using its currency code property
+    const countryFlag = getEmojiFlag(selectedCurrency.currencyCode);
+    // Updates the label element
+    messageLabel.innerHTML = `${selectedCurrency.amount} in ${countryFlag[0]}${countryFlag[1]} ${selectedCurrency.currencyCode} can get you:`;
+  }
+  // If there is not a selected currency, a the following message is displayed to inform the user
+  else {
+    messageLabel.innerHTML = "Add or select a currency to view exchange rates";
+  }
 }
 
 function updateSelectedCurrency(newSelectedCurrency) {
@@ -350,13 +385,19 @@ async function handleCreateNewCurrency(event) {
   event.preventDefault();
 
   // Gets modal input field values
-  const amount = document.getElementById("amount").value;
-  const currencyCode = document.getElementById("currency").value;
+  const amount = document.getElementById("amount");
+  const currencyCode = document.getElementById("currency");
 
+  // Prevents the user from using invalid values
+  if (amount.value <= 0 || currencyCode.value === "Select a currency") {
+    return;
+  }
+
+  // New currency object is created
   const newCurrency = {
     id: crypto.randomUUID(),
-    amount,
-    currencyCode,
+    amount: amount.value,
+    currencyCode: currencyCode.value,
   };
 
   // Updates selected currency
@@ -375,16 +416,20 @@ async function handleCreateNewCurrency(event) {
   deleteElement("search-history");
 
   //Updates label
-  updateLabel(amount, currencyCode);
+  updateLabel();
 
   // Renders the main content of the website to the DOM
-  renderResults(amount, currencyCode);
+  renderResults(amount.value, currencyCode.value);
 
   // Renders the search history to the DOM
   renderSearchHistory();
 
+  // Clear form field values
+  amount.value = "";
+  currencyCode.value = "Select a currency";
+
   // Closes the modal window
-  modal.classList.remove("is-active");
+  addCurrencyModal.classList.remove("is-active");
 }
 
 async function main() {
@@ -407,7 +452,6 @@ async function main() {
     // Renders the main content of the website to the DOM
     renderResults(selectedCurrency.amount, selectedCurrency.currencyCode);
   }
-  console.log(countryFlags);
 }
 
 // Runs main function
@@ -418,12 +462,52 @@ addCurrencyModalBtn.addEventListener("click", (event) => {
   handleCreateNewCurrency(event);
 });
 
-// Makes the add currency button activate the modal when its clicked
-addCurrencyBtn.addEventListener("click", () => {
-  modal.classList.add("is-active");
+// When the delete button is clicked, it runs a script to delete the currency to delete and renders the site again
+deleteCurrencyModalBtn.addEventListener("click", () => {
+  // Removes the currency to delete from the search history list
+  searchHistory = searchHistory.filter(
+    (item) => item.id !== currencyToDelete.id
+  );
+
+  // Saves search history to local storage
+  loadToLocalStorage(SEARCH_HISTORY_KEY, searchHistory);
+
+  // The currency to delete is the same as the selected currency
+  if (selectedCurrency === currencyToDelete) {
+    // Selected currency is reset
+    selectedCurrency = null;
+    updateSelectedCurrency(selectedCurrency);
+
+    // Gets rid of the old currency list
+    deleteElement("currencies-list");
+
+    //Updates label
+    updateLabel();
+  }
+  // Currency to delete is reset
+  currencyToDelete = {};
+
+  // Gets rid of the old search history
+  deleteElement("search-history");
+
+  // Renders the search history to the DOM
+  renderSearchHistory();
+
+  // Makes the delete currency modal window disappear
+  deleteCurrencyModal.classList.remove("is-active");
 });
 
-// Makes the modal window disapper
-modalClose.addEventListener("click", () => {
-  modal.classList.remove("is-active");
+// Makes the add currency button activate the modal when its clicked
+addCurrencyBtn.addEventListener("click", () => {
+  addCurrencyModal.classList.add("is-active");
+});
+
+// Makes the add currency modal window disappear
+addCurrencyModalClose.addEventListener("click", () => {
+  addCurrencyModal.classList.remove("is-active");
+});
+
+// Makes the delete currency modal window disappear
+deleteCurrencyModalClose.addEventListener("click", () => {
+  deleteCurrencyModal.classList.remove("is-active");
 });
