@@ -29,3 +29,8 @@ button #add-currency-btn {
 .btn-icon:hover .tooltiptext {
   visibility: visible;
 }
+
+/* Fix last cell height issue */
+#currencies-list-div .box:last-child { 
+  margin-bottom: 1.5rem; 
+}
