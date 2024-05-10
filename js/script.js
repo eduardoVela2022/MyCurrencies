@@ -205,7 +205,7 @@ function renderExchangeRates(exchangeRates) {
     const newListItem = document.createElement("li");
     newListItem.setAttribute(
       "class",
-      "cell box has-background-light has-text-grey is-shadowless"
+      "cell box has-background-light has-text-grey-darker is-shadowless"
     );
     // The country flag of the exchange rate is obtained using its currency code property
     const countryFlag = getEmojiFlag(exchangeRate);
