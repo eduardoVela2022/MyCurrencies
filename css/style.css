@@ -5,7 +5,28 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
   height: 100%;
+  color: #404654;
 }
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+}
+.btn {
+  padding-right: 20px;
+  font-size: 2rem;
+}
+.dark-mode .section {
+  background-color: rgb(75, 72, 72);
+  color: white !important;
+}
+.dark-mode .is-size-5 {
+  color: black !important;
+} 
+.dark-mode .is-size-4 {
+  color: white
+}
+
 button #add-currency-btn {
   font-weight: 700;
 }
