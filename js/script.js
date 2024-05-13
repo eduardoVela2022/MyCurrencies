@@ -104,6 +104,7 @@ document.getElementById("btn-dark-mode").addEventListener('click', (event) => {
   else {
     bodyHtml.classList.add("dark-mode");
     document.getElementById('btn-dark-mode').innerHTML = '🌙';
+    bodyHtml.style.background = "#4B4848";
 }
 });
 
