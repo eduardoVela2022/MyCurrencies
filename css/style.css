@@ -14,16 +14,19 @@ body {
 }
 .btn {
   padding-right: 20px;
+  font-size: 2rem;
 }
-
 .dark-mode .section {
   background-color: rgb(75, 72, 72);
   color: white !important;
 }
-
 .dark-mode .navbar{
   background-color: rgb(149, 146, 146);
 }
+.dark-mode .is-size-5 {
+  color: black !important;
+} 
+
 button #add-currency-btn {
   font-weight: 700;
 }

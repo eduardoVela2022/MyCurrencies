@@ -99,11 +99,11 @@ document.getElementById("btn-dark-mode").addEventListener('click', (event) => {
   
   if (hasDarkMode){
     bodyHtml.classList.remove("dark-mode");
-    document.getElementById('btn-dark-mode').innerHTML = '🌘';
+    document.getElementById('btn-dark-mode').innerHTML = '☀️';
   }
   else {
     bodyHtml.classList.add("dark-mode");
-    document.getElementById('btn-dark-mode').innerHTML = '☀️';
+    document.getElementById('btn-dark-mode').innerHTML = '🌙';
 }
 });
 
