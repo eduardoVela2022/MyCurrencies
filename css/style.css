@@ -1,30 +1,36 @@
-body{
-    background-color: #eeeeee;
-    font-family: "Roboto Condensed", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    height: 100%;
+html,
+body {
+  background-color: #eeeeee;
+  font-family: "Roboto Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  height: 100%;
 }
-button #add-currency{
-    font-weight: 700;
+button #add-currency-btn {
+  font-weight: 700;
 }
 .tooltip-text {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-    top: 100%;
-    left: 50%;
-    margin-left: -60px;
-  }
-  
-  .btn-icon:hover .tooltiptext {
-    visibility: visible;
-  }
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.btn-icon:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* Fix last cell height issue */
+#currencies-list-div .box:last-child { 
+  margin-bottom: 1.5rem; 
+}
