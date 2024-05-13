@@ -100,6 +100,7 @@ document.getElementById("btn-dark-mode").addEventListener('click', (event) => {
   if (hasDarkMode){
     bodyHtml.classList.remove("dark-mode");
     document.getElementById('btn-dark-mode').innerHTML = '☀️';
+    bodyHtml.style.background = "#EEEEEE";
   }
   else {
     bodyHtml.classList.add("dark-mode");
