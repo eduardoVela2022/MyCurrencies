@@ -32,7 +32,7 @@
 
   <body>
     <!-- top bar begins, only logo is present for now -->
-    <nav class="navbar has-background-white">
+    <nav class="navbar">
       <div class="navbar-item px-5 py-2">
         <img
           src="./assets/logo.png"
@@ -40,6 +40,7 @@
           style="max-height: 50px"
         />
       </div>
+      <button class="btn" id="btn-dark-mode">☀️</button>
     </nav>
     <!-- top bar ends -->
     <!-- full container starts -->
@@ -218,7 +219,7 @@
             </div>
             <!-- Modal ends -->
             <div class="mt-6">
-              <h3 class="is-size-4 subtitle has-text-weight-bold has-text-grey-darker">
+              <h3 class="is-size-4 subtitle has-text-weight-bold">
                 Search history:
               </h3>
               <!-- This section will be created in time, adding buttons for each of the last Xnumber of currencies added -->
@@ -227,7 +228,7 @@
           </div>
           <!-- left side section ends -->
           <!-- main data section starts, this is where the amount entered and equivalent currencies will be displayed -->
-          <div class="column has-text-grey-dark p-5">
+          <div class="column p-5">
             <span id="message-label">
               Add or select a currency to view exchange rates
             </span>

@@ -92,6 +92,21 @@ const countriesList = [
   "european union",
 ];
 
+// code to activate dark and light mode
+document.getElementById("btn-dark-mode").addEventListener('click', (event) => {
+  const bodyHtml = document.getElementsByTagName("body")[0];
+  const hasDarkMode = bodyHtml.classList.value.includes("dark-mode"); 
+  
+  if (hasDarkMode){
+    bodyHtml.classList.remove("dark-mode");
+    document.getElementById('btn-dark-mode').innerHTML = '🌘';
+  }
+  else {
+    bodyHtml.classList.add("dark-mode");
+    document.getElementById('btn-dark-mode').innerHTML = '☀️';
+}
+});
+
 // Returns an array with the emoji flags of the countries of the currencies we are using
 async function getCountryFlags() {
   // Gets all the emoji flags from the API
