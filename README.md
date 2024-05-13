@@ -31,4 +31,4 @@ To visit and review our project, [click here](https://eduardovela2022.github.io/
 ## Visual reference of project
 The following image demonstrates the app's appearance:
 
-![This app can be run in the browser and features dynamically updated HTML and CSS powered by JavaScript (started from scratch by MyCurrencies DevTeam)](./Assets/myCurrencies_appReference.gif)
+![This app can be run in the browser and features dynamically updated HTML and CSS powered by JavaScript (started from scratch by MyCurrencies DevTeam)](./assets/myCurrencies_appReference.gif)
